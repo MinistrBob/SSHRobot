@@ -3,6 +3,11 @@ Executing commands on multiple servers through SSH.
 ssh_robot_executor.py - Execute list of command from variable command_list from CL.py on list of servers from variable lst from SL.py.
 ssh_robot_file_worker.py - Perform a series of file operations from variable file_operations_list from FOL.py on list of servers from variable lst from SL.py.
 
+# Quick Start
+1. Create list of servers (file SL.py)
+2. Create list of commands (file CL.py)
+3. Run ssh_robot_executor.py
+
 # Project files for personal use
 These files, for privacy reasons, are included in .gitignore exceptions, so you need to move them between computers manually.
 # SL.py (Server list)
