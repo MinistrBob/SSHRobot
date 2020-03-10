@@ -4,13 +4,18 @@ import traceback
 import SL
 import CL
 
+# Current SL (Server List)
+# sl = SL.server_list_full
+sl = SL.cassandra_servers
+# Current CL (Command List)
+cl = CL.command_list
 
-commands = CL.command_list.splitlines()
+commands = cl.splitlines()
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-for ip, conn in SL.server_list.items():
+for ip, conn in sl.items():
     print((' Host: ' + ip + ' ').center(60, '-'))
     try:
         try:
