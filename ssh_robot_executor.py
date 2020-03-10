@@ -6,25 +6,30 @@ import CL
 
 # Current SL (Server List)
 # sl = SL.server_list_full
-sl = SL.cassandra_servers
+# sl = SL.cassandra_servers
+sl = SL.test_servers
 # Current CL (Command List)
 cl = CL.command_list
 
 commands = cl.splitlines()
+port = '22'
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 for ip, conn in sl.items():
     print((' Host: ' + ip + ' ').center(60, '-'))
+    if len(conn) == 3:
+        port = conn[2]
     try:
-        try:
-            ssh.connect(ip, username=conn[0], password=conn[1], port=conn[2])
-        except IndexError:
-            ssh.connect(ip, username=conn[0], password=conn[1])
+        ssh.connect(ip, username=conn[0], password=conn[1], port=port)
+    except (ConnectionError, TimeoutError) as e:
+        print(f"ERROR: Can't connect to {ip}")
+        print(e)
     except Exception as e:
         print(f"ERROR: Can't connect to {ip}")
         print(traceback.format_exc())
+    finally:
         continue
 
     for command in commands:
@@ -49,4 +54,3 @@ for ip, conn in sl.items():
             break
     ssh.close()
     print('-' * 60)
-
