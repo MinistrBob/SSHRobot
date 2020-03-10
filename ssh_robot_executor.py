@@ -26,15 +26,15 @@ for ip, conn in sl.items():
     except (ConnectionError, TimeoutError) as e:
         print(f"ERROR: Can't connect to {ip}")
         print(e)
+        continue
     except Exception as e:
         print(f"ERROR: Can't connect to {ip}")
         print(traceback.format_exc())
-    finally:
         continue
 
     for command in commands:
         command = command.replace("{ip}", ip)
-        print(f"Execute command: {command}")
+        print(f"# {command}")
         try:
             stdin, stdout, stderr = ssh.exec_command(command)
             stdin.write(conn[1] + '\n')
