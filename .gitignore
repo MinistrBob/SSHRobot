@@ -4,6 +4,7 @@ CL_archive.txt
 CL.py
 FOL.py
 test.py
+SETTINGS.py
 
 # PyCharm files
 .idea/
