@@ -1,28 +1,17 @@
 import paramiko
 import traceback
+import SETTINGS
 
-import SL
-import CL
-
-# Current SL (Server List)
-# sl = SL.server_list_full
-# sl = SL.cassandra_servers
-sl = SL.test_servers
-# Current CL (Command List)
-cl = CL.command_list
-
-commands = cl.splitlines()
-port = '22'
-
+commands = SETTINGS.cl.splitlines()
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-for ip, conn in sl.items():
+for ip, param in SETTINGS.sl.items():
     print((' Host: ' + ip + ' ').center(60, '-'))
-    if len(conn) == 3:
-        port = conn[2]
+    if 'port' in param:
+        default_SSH_port = param['port']
     try:
-        ssh.connect(ip, username=conn[0], password=conn[1], port=port)
+        ssh.connect(ip, username=param['login'], password=param['password'], port=SETTINGS.default_SSH_port)
     except (ConnectionError, TimeoutError) as e:
         print(f"ERROR: Can't connect to {ip}")
         print(e)
@@ -33,11 +22,12 @@ for ip, conn in sl.items():
         continue
 
     for command in commands:
-        command = command.replace("{ip}", ip)
+        # command = command.replace("{ip}", ip)
+        command = command.replace("{hostname}", param['hostname'])
         print(f"# {command}")
         try:
             stdin, stdout, stderr = ssh.exec_command(command)
-            stdin.write(conn[1] + '\n')
+            stdin.write(param['login'] + '\n')
             stdin.flush()
             err = stderr.read().decode('utf-8')
             print(stdout.read().decode('utf-8'))
