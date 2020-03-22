@@ -36,7 +36,9 @@ for ip, param in SETTINGS.sl.items():
                 # Some normal messages are redirected to the stderr. But this is not a error.
                 # We bypass this behavior of some commands.
                 # Example: systemctl start may redirect to stderr message: Created symlink ...
-                if err.startswith("Created symlink"):
+                if err.startswith("Created symlink") and "systemctl enable" in command.lower():
+                    print(f"# {err}")
+                elif err.startswith("Removed") and "systemctl disable" in command.lower():
                     print(f"# {err}")
                 else:
                     print(f"ERROR: Execute command: {command}")
