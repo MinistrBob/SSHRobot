@@ -30,13 +30,19 @@ for ip, param in SETTINGS.sl.items():
             stdin.write(param['login'] + '\n')
             stdin.flush()
             err = stderr.read().decode('utf-8')
-            print(stdout.read().decode('utf-8'))
+            print(f"# {stdout.read().decode('utf-8')}")
             # print(err)
             if len(err) > 0:
-                print(f"ERROR: Execute command: {command}")
-                print(f"{err}")
-                print(f"Execution break")
-                break
+                # Some normal messages are redirected to the stderr. But this is not a error.
+                # We bypass this behavior of some commands.
+                # Example: systemctl start may redirect to stderr message: Created symlink ...
+                if err.startswith("Created symlink"):
+                    print(f"# {err}")
+                else:
+                    print(f"ERROR: Execute command: {command}")
+                    print(f"{err}")
+                    print(f"Execution break")
+                    break
         except Exception as e:
             print(f"ERROR: Execute command: {command}")
             print(traceback.format_exc())
