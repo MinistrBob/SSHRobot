@@ -1,5 +1,9 @@
 # Command List file, used for CentOS 8
 
+# DEBUG
+command_list = """echo $%hosthame%
+"""
+
 # Get hostname (for test)
 # command_list = """hostname
 # """
@@ -9,7 +13,7 @@
 # hostname
 # """
 
-# Turn off Selinux
+# Disable Selinux
 # command_list = """sed -i -- s/=enforcing/=disabled/g /etc/selinux/config
 # reboot
 # """
@@ -37,14 +41,25 @@
 # command_list = """chronyc sourcestats
 # """
 
-# Turn off cockpit
+# Disable cockpit
 # command_list = """sudo systemctl disable --now cockpit.socket
 # """
 
-# Выключить консоль управления
+# Enable desired repositories
 # command_list = """dnf install yum-utils
 # yum-config-manager --enable AppStream
 # yum-config-manager --enable BaseOS
 # yum-config-manager --enable extras
 # """
 
+# ===============================================
+# Disable ipv6
+# command_list = """sudo echo net.ipv6.conf.all.disable_ipv6 = 1 >> /etc/sysctl.conf
+# sudo echo net.ipv6.conf.default.disable_ipv6 = 1 >> /etc/sysctl.conf
+# cat /etc/sysctl.conf
+# sudo sysctl -p
+# sudo systemctl stop NetworkManager.service
+# sudo systemctl start NetworkManager.service
+# sudo ifconfig eno5 | grep inet6
+# sudo netstat -tulnp | grep 'tcp6\|udp6'
+# """

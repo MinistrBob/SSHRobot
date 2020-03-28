@@ -1,5 +1,5 @@
 import SL
-import CL
+import CentOS8 as CL
 
 # Current SL (Server List)
 # sl = SL.server_list_full
