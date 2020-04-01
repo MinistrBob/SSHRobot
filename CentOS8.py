@@ -1,8 +1,8 @@
 # Command List file, used for CentOS 8
 
 # DEBUG
-command_list = """echo $%hosthame%
-"""
+# command_list = """echo $%hosthame%
+# """
 
 # Get hostname (for test)
 # command_list = """hostname
@@ -11,6 +11,10 @@ command_list = """echo $%hosthame%
 # Rename server
 # command_list = """hostnamectl set-hostname {hostname}
 # hostname
+# """
+
+# Disable Selinux (test)
+# command_list = """cat /etc/selinux/config | grep ^SELINUX=
 # """
 
 # Disable Selinux
@@ -54,8 +58,10 @@ command_list = """echo $%hosthame%
 
 # ===============================================
 # Disable ipv6
-# command_list = """sudo echo net.ipv6.conf.all.disable_ipv6 = 1 >> /etc/sysctl.conf
+# command_list = """sudo chmod 777 /etc/sysctl.conf
+# sudo echo net.ipv6.conf.all.disable_ipv6 = 1 >> /etc/sysctl.conf
 # sudo echo net.ipv6.conf.default.disable_ipv6 = 1 >> /etc/sysctl.conf
+# sudo chmod 644 /etc/sysctl.conf
 # cat /etc/sysctl.conf
 # sudo sysctl -p
 # sudo systemctl stop NetworkManager.service
@@ -63,3 +69,32 @@ command_list = """echo $%hosthame%
 # sudo ifconfig eno5 | grep inet6
 # sudo netstat -tulnp | grep 'tcp6\|udp6'
 # """
+
+# Disable ipv6 for services
+# Postrges12 (not default database path)
+# cat /mnt/database/postgresql/12/data/postgresql.conf | grep listen_addresses
+# Httpd
+# cat /etc/httpd/conf/httpd.conf | grep ^Listen
+
+####################################################################
+
+# ALL COMMAND
+command_list = """hostname
+hostnamectl set-hostname {hostname}
+hostname
+cat /etc/selinux/config | grep ^SELINUX=
+nmcli connection modify eno5 ipv4.dns "10.128.241.101 10.128.241.102"
+nmcli connection modify eno5 ipv4.dns-search "dc1.local"
+systemctl restart NetworkManager
+nmcli connection show eno5 | grep ipv4.dns
+cat /etc/resolv.conf
+sudo chmod 777 /etc/chrony.conf
+sudo sed -i.bak -e "s/pool 2.centos.pool.ntp.org iburst/# pool 2.centos.pool.ntp.org iburst\\nserver 10.128.1.1 iburst/g" /etc/chrony.conf
+sudo chmod 644 /etc/chrony.conf
+sudo chmod 644 /etc/chrony.conf.bak
+head -5 /etc/chrony.conf
+sudo systemctl enable chronyd
+sudo systemctl start chronyd
+chronyc sourcestats
+sudo systemctl disable --now cockpit.socket
+"""

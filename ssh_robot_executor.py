@@ -24,6 +24,8 @@ for ip, param in SETTINGS.sl.items():
     for command in commands:
         # command = command.replace("{ip}", ip)
         command = command.replace("{hostname}", param['hostname'])
+        # param_name =
+        # command = command.replace("%hosthame%", param['hostname'])
         print(f"# {command}")
         try:
             stdin, stdout, stderr = ssh.exec_command(command)
