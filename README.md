@@ -47,3 +47,6 @@ Documentation - https://docs.paramiko.org/en/stable/
 # Requirements
 pip freeze > c:\MyGit\SSHRobot\requirements.txt
 pip install -r c:\MyGit\SSHRobot\requirements.txt
+
+# Possible errors
+Paramiko error when trying to edit file: “sudo: no tty present and no askpass program specified” - https://stackoverflow.com/questions/33579184/paramiko-error-when-trying-to-edit-file-sudo-no-tty-present-and-no-askpass-pr
