@@ -188,5 +188,5 @@
 # """
 
 # reboot
-command_list = """sudo reboot now
-"""
+# command_list = """sudo reboot now
+# """
