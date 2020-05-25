@@ -22,7 +22,7 @@ end += 1
 seq = range(begin, end)
 # constanta - if there is INCLUDE list then it is used instead of SEQ
 include = ()
-# constanta - ip addresses to be excluded from processing
+# constanta - ip addresses to be excluded from processing (only for generation SL)
 exclude = (105, 106, 107, 108, 109, 110, 111, 112, 113, 117, 118, 119, 120, 125,
            126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138,
            139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151,
