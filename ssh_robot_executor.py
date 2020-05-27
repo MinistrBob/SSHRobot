@@ -13,6 +13,7 @@ def main():
     total = len(SETTINGS.sl)
     if total > 0:
         for ip, param in SETTINGS.sl.items():
+            # Create connection to server
             print((' Host: ' + ip + ' ').center(60, '-'))
             if 'port' in param:
                 default_SSH_port = param['port']
@@ -29,7 +30,7 @@ def main():
                 print(traceback.format_exc())
                 list_error_connect.append((ip, e))
                 continue
-
+            # Execute commands
             for command in commands:
                 # command = command.replace("{ip}", ip)
                 command = command.replace("{hostname}", param['hostname'])
