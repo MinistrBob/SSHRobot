@@ -5,12 +5,12 @@ c_debug = """echo $%hosthame%
 """
 
 # Get hostname (check)
-c_hostname = """hostname
+check_hostname = """hostname
 """
 
 # Check sudo
 # echo <password> | sudo -S ls
-c_check_sudo = """sudo -S ls
+check_sudo = """sudo -S ls
 """
 
 # Rename server
@@ -19,7 +19,7 @@ hostname
 """
 
 # Disable Selinux (check)
-c_disable_selinux_check = """cat /etc/selinux/config | grep ^SELINUX=
+check_disable_selinux = """cat /etc/selinux/config | grep ^SELINUX=
 getenforce
 sestatus
 """
@@ -30,7 +30,7 @@ reboot
 """
 
 # DNS settings (check)
-c_dns_settings_check = """nmcli connection show ens160 | grep ipv4.dns
+check_dns_settings = """nmcli connection show ens160 | grep ipv4.dns
 cat /etc/resolv.conf
 """
 
@@ -51,7 +51,7 @@ cat /etc/resolv.conf
 """
 
 # Time sync (check)
-c_tyme_sync_check = """chronyc sourcestats
+check_tyme_sync = """chronyc sourcestats
 head -n 10 /etc/chrony.conf
 """
 
@@ -101,8 +101,51 @@ sudo netstat -tulnp | grep 'tcp6\|udp6'
 # Httpd
 # cat /etc/httpd/conf/httpd.conf | grep ^Listen
 
-# Setting proxy for OS, dnf, yum
-c_proxy_check = """sudo cat /etc/environment | wc -l
+# Setting proxy for OS
+c_os_proxy = {'check': """sudo cat /etc/environment | wc -l""",
+              'result': "10",
+              'command': """sudo chmod 777 /etc/environment
+sudo echo https_proxy=http://10.128.28.145:3128/ > /etc/environment
+sudo echo http_proxy=http://10.128.28.145:3128/ >> /etc/environment
+sudo echo no_proxy=localhost,127.0.0.0/8,::1,10.128.0.0/16 >> /etc/environment
+sudo echo all_proxy=socks://10.128.28.145:3128/ >> /etc/environment
+sudo echo ftp_proxy=http://10.128.28.145:3128/ >> /etc/environment
+sudo echo HTTP_PROXY=http://10.128.28.145:3128/ >> /etc/environment
+sudo echo FTP_PROXY=http://10.128.28.145:3128/ >> /etc/environment
+sudo echo ALL_PROXY=socks://10.128.28.145:3128/ >> /etc/environment
+sudo echo NO_PROXY=localhost,127.0.0.0/8,::1,10.128.0.0/16 >> /etc/environment
+sudo echo HTTPS_PROXY=http://10.128.28.145:3128/ >> /etc/environment
+sudo chmod 644 /etc/environment""",
+              'show': """sudo cat /etc/environment""",
+              'execute_anyway': False,
+              'show_after': True,
+              'show_before': True
+              }
+
+# Setting proxy for dnf
+c_dnf_proxy = {'check': """sudo cat /etc/dnf/dnf.conf | grep -i proxy | wc -l""",
+               'check_result': {'type': "int", 'value': 1, 'execute': 4, 'ok': 1, 'error': 3},
+               'command': """sudo chmod 777 /etc/dnf/dnf.conf
+sudo echo 'proxy=http://10.128.28.145:3128' >> /etc/dnf/dnf.conf
+sudo chmod 644 /etc/dnf/dnf.conf""",
+               'show': """sudo cat /etc/dnf/dnf.conf""",
+               'execute_anyway': False,
+               'show_after': True,
+               'show_before': True
+               }
+# {1 ==; 2 !=; 3 <; 4 >; 5 =<; 6 >=}
+# type, value, execute, OK (not execute), error
+c_dnf_proxy_check = {'check': """sudo cat /etc/dnf/dnf.conf | grep -i proxy | wc -l""",
+                     'check_result': {'type': "int", 'value': 1, 'execute': 4, 'ok': 1, 'error': 3},
+                     'command': """""",
+                     'show': """sudo cat /etc/dnf/dnf.conf""",
+                     'execute_anyway': True,
+                     'show_after': True,
+                     'show_before': False
+                     }
+
+# Setting proxy for yum
+"""sudo cat /etc/environment | wc -l
 sudo cat /etc/dnf/dnf.conf | grep -i proxy | wc -l
 sudo cat /etc/yum.conf | grep -i proxy | wc -l
 """
@@ -154,7 +197,7 @@ sudo systemctl disable cassandra
 """
 
 # jvm.options (check)
-c_jvm_options_check = """cat /etc/cassandra/default.conf/jvm.options | grep '\-Xms\|\-Xmx'
+check_jvm_options = """cat /etc/cassandra/default.conf/jvm.options | grep '\-Xms\|\-Xmx'
 """
 
 # Edit /etc/cassandra/default.conf/jvm.options
@@ -164,7 +207,7 @@ cat /etc/cassandra/default.conf/jvm.options | grep '\-Xms\|\-Xmx'
 """
 
 # /etc/sysctl.conf (check)
-c_etc_sysctl_conf_check = """cat /etc/sysctl.conf | grep fs.file-max
+check_etc_sysctl_conf = """cat /etc/sysctl.conf | grep fs.file-max
 """
 
 # Edit /etc/sysctl.conf
