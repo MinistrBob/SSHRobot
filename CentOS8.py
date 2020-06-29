@@ -9,10 +9,10 @@ c_debug = """echo $%hosthame%
 # Install package
 install_package = {'check': None,
                    'check_result': None,
-                   'command': """sudo dnf -y install htop""",
-                   'show': """sudo dnf list installed | grep htop""",
+                   'command': """sudo dnf -y install git""",
+                   'show': """sudo dnf list installed | grep git""",
                    'execute_anyway': False,
-                   'show_after': True,
+                   'show_after': False,
                    'show_before': True
                    }
 
@@ -43,7 +43,7 @@ reboot
 """
 
 # DNS settings (check)
-check_dns_settings = """nmcli connection show ens160 | grep ipv4.dns
+check_dns_settings = """nmcli connection show eno5 | grep ipv4.dns
 cat /etc/resolv.conf
 """
 
@@ -84,6 +84,14 @@ c_disable_cockpit = """sudo systemctl disable --now cockpit.socket
 """
 
 # Enable desired repositories
+check_ropos = {'check': None,
+               'check_result': None,
+               'command': None,
+               'show': """sudo dnf repolist""",
+               'execute_anyway': False,
+               'show_after': True,
+               'show_before': False
+               }
 enable_ropos = {'check': None,
                 'check_result': None,
                 'command': """sudo dnf -y install yum-utils
@@ -105,7 +113,7 @@ sudo yum-config-manager --enable epel
 """,
                      'show': """sudo dnf repolist | grep epel""",
                      'execute_anyway': False,
-                     'show_after': True,
+                     'show_after': False,
                      'show_before': True
                      }
 
@@ -214,7 +222,7 @@ sudo firewall-cmd --state""",
 # Setting firewall
 setting_firewall = {'check': None,
                     'check_result': None,
-                    'command': """sudo firewall-cmd --add-service=zabbix-agent --permanent
+                    'command': """sudo firewall-cmd --add-service=zabbix-server --permanent
 sudo firewall-cmd --reload
 sudo firewall-cmd --zone=public --list-all""",
                     'show': """""",
@@ -226,7 +234,8 @@ sudo firewall-cmd --zone=public --list-all""",
 # Setting firewall (check)
 setting_firewall_check = {'check': None,
                           'check_result': None,
-                          'command': """sudo firewall-cmd --zone=public --list-all""",
+                          'command': """sudo firewall-cmd --reload
+sudo firewall-cmd --zone=public --list-all""",
                           'show': """""",
                           'execute_anyway': True,
                           'show_after': False,
@@ -344,7 +353,7 @@ sudo dnf -y install zabbix-agent
 sudo dnf list installed | grep ^zabbix
 sudo sed -i.bak -e "s/Server=127.0.0.1/Server=127.0.0.1,10.128.241.0\/24/g" /etc/zabbix/zabbix_agentd.conf
 sudo sed -i.bak -e "s/ServerActive=127.0.0.1/ServerActive=10.128.241.222/g" /etc/zabbix/zabbix_agentd.conf
-sudo sed -i.bak -e "s/Hostname=Zabbix server/Hostname=$HOSTNAME/g" /etc/zabbix/zabbix_agentd.conf
+sudo sed -i.bak -e "s/^Hostname=.*/Hostname=$(hostname -I | cut -d" " -f 1)/g" /etc/zabbix/zabbix_agentd.conf
 cat /etc/zabbix/zabbix_agentd.conf | grep ^Server=
 cat /etc/zabbix/zabbix_agentd.conf | grep ^ServerActive=
 cat /etc/zabbix/zabbix_agentd.conf | grep ^Hostname=
@@ -361,6 +370,18 @@ sudo firewall-cmd --zone=public --list-all | grep zabbix-agent
                 'show_after': True,
                 'show_before': True
                 }
+
+zabbix_agent_change_host = {'check': None,
+                   'check_result': None,
+                   'command': """sudo sed -i.bak -e "s/^Hostname=.*/Hostname=$(hostname -I | cut -d" " -f 1)/g" /etc/zabbix/zabbix_agentd.conf
+cat /etc/zabbix/zabbix_agentd.conf | grep ^Hostname=
+sudo systemctl restart zabbix-agent
+""",
+                   'show': """cat /etc/zabbix/zabbix_agentd.conf | grep ^Hostname=""",
+                   'execute_anyway': False,
+                   'show_after': True,
+                   'show_before': False
+                   }
 
 # nothing provides module(perl:5.26) needed by module perl-DBD-MySQL:4.046:8010020191114030811:073fa5fe-0.x86_64
 fix_error = {'check': None,
@@ -388,3 +409,12 @@ sudo firewall-cmd --zone=public --list-all""",
                     'show_after': False,
                     'show_before': False
                     }
+
+setting_eno5 = {'check': None,
+                'check_result': None,
+                'command': """sudo ifconfig""",
+                'show': """""",
+                'execute_anyway': True,
+                'show_after': False,
+                'show_before': False
+                }
