@@ -16,10 +16,25 @@ install_package = {'check': None,
                    'show_before': True
                    }
 
+power_reset = {'check': None,
+                  'check_result': None,
+                  'command': None,
+                  'show': """power reset""",
+                  'execute_anyway': False,
+                  'show_after': True,
+                  'show_before': False
+                  }
+
 #### Commands for install ####
 # Get hostname (check)
-check_hostname = """hostname
-"""
+get_hostname = {'check': None,
+                  'check_result': None,
+                  'command': None,
+                  'show': """hostname""",
+                  'execute_anyway': False,
+                  'show_after': True,
+                  'show_before': False
+                  }
 
 # Check sudo
 # echo <password> | sudo -S ls
@@ -84,7 +99,7 @@ c_disable_cockpit = """sudo systemctl disable --now cockpit.socket
 """
 
 # Enable desired repositories
-check_ropos = {'check': None,
+check_repos = {'check': None,
                'check_result': None,
                'command': None,
                'show': """sudo dnf repolist""",
@@ -92,7 +107,7 @@ check_ropos = {'check': None,
                'show_after': True,
                'show_before': False
                }
-enable_ropos = {'check': None,
+enable_repos = {'check': None,
                 'check_result': None,
                 'command': """sudo dnf -y install yum-utils
 sudo yum-config-manager --enable AppStream
@@ -372,16 +387,16 @@ sudo firewall-cmd --zone=public --list-all | grep zabbix-agent
                 }
 
 zabbix_agent_change_host = {'check': None,
-                   'check_result': None,
-                   'command': """sudo sed -i.bak -e "s/^Hostname=.*/Hostname=$(hostname -I | cut -d" " -f 1)/g" /etc/zabbix/zabbix_agentd.conf
+                            'check_result': None,
+                            'command': """sudo sed -i.bak -e "s/^Hostname=.*/Hostname=$(hostname -I | cut -d" " -f 1)/g" /etc/zabbix/zabbix_agentd.conf
 cat /etc/zabbix/zabbix_agentd.conf | grep ^Hostname=
 sudo systemctl restart zabbix-agent
 """,
-                   'show': """cat /etc/zabbix/zabbix_agentd.conf | grep ^Hostname=""",
-                   'execute_anyway': False,
-                   'show_after': True,
-                   'show_before': False
-                   }
+                            'show': """cat /etc/zabbix/zabbix_agentd.conf | grep ^Hostname=""",
+                            'execute_anyway': False,
+                            'show_after': True,
+                            'show_before': False
+                            }
 
 # nothing provides module(perl:5.26) needed by module perl-DBD-MySQL:4.046:8010020191114030811:073fa5fe-0.x86_64
 fix_error = {'check': None,
