@@ -1,3 +1,13 @@
+# Get power status (check)
+get_power_status = {'check': None,
+                    'check_result': None,
+                    'command': None,
+                    'show': """power""",
+                    'execute_anyway': False,
+                    'show_after': False,
+                    'show_before': False
+                    }
+
 # Command List file, used for CentOS 8
 
 # DEBUG
@@ -17,24 +27,24 @@ install_package = {'check': None,
                    }
 
 power_reset = {'check': None,
-                  'check_result': None,
-                  'command': None,
-                  'show': """power reset""",
-                  'execute_anyway': False,
-                  'show_after': True,
-                  'show_before': False
-                  }
+               'check_result': None,
+               'command': None,
+               'show': """power reset""",
+               'execute_anyway': False,
+               'show_after': True,
+               'show_before': False
+               }
 
 #### Commands for install ####
 # Get hostname (check)
 get_hostname = {'check': None,
-                  'check_result': None,
-                  'command': None,
-                  'show': """hostname""",
-                  'execute_anyway': False,
-                  'show_after': True,
-                  'show_before': False
-                  }
+                'check_result': None,
+                'command': None,
+                'show': """hostname""",
+                'execute_anyway': False,
+                'show_after': True,
+                'show_before': False
+                }
 
 # Check sudo
 # echo <password> | sudo -S ls
