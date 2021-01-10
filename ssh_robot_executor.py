@@ -184,7 +184,8 @@ def execute_one_command(command, ip, param, ssh, final_result=None):
     # command = command.replace("%hosthame%", param['hostname'])
     print(f"# {command}")
     try:
-        stdin, stdout, stderr = ssh.exec_command(command, get_pty=True)
+        # stdin, stdout, stderr = ssh.exec_command(command, get_pty=True)
+        stdin, stdout, stderr = ssh.exec_command(command)
         stdin.write(param['password'] + '\n')
         stdin.flush()
         err = stderr.read().decode('utf-8')
@@ -205,6 +206,10 @@ def execute_one_command(command, ip, param, ssh, final_result=None):
             elif err.startswith("Removed") and "systemctl disable" in command.lower():
                 print(f"# {err}")
             elif err.startswith("[sudo] password for"):
+                print(f"# {err}")
+            elif err.startswith("warning") and command.lower().startswith("sudo rpm"):
+                print(f"# {err}")
+            elif err.startswith("warning") and command.lower().startswith("sudo dnf"):
                 print(f"# {err}")
             else:
                 print(f"ERROR: Execute command: {command}")
