@@ -1,7 +1,8 @@
 # SSHRobot
 Executing commands on multiple servers through SSH.  
-**ssh_robot_executor.py** - Execute list of command from variable command_list from CL.py on list of servers from variable lst from SL.py.  
-**ssh_robot_file_worker.py** - Perform a series of file operations from variable file_operations_list from FOL.py on list of servers from variable lst from SL.py.  
+- **ssh_robot_executor.py** - Execute list of command from variable command_list from CL.py on list of servers from variable lst from SL.py.  
+- **ssh_robot_file_worker.py** - Perform a series of file operations from variable file_operations_list from FOL.py on list of servers from variable lst from SL.py.  
+  
 **WARNING:** The project was written for personal use, for cases when the use of Ansible is impossible for various reasons. Therefore, this project in no way can be compared with Ansible in functionality and usability.   
 
 ## Quick Start
@@ -53,7 +54,6 @@ Documentation - https://docs.paramiko.org/en/stable/
 
 ## Requirements
 ```Shell
-pip freeze > c:\MyGit\SSHRobot\requirements.txt
 pip install -r c:\MyGit\SSHRobot\requirements.txt
 ```
 
