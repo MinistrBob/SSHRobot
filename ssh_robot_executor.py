@@ -106,7 +106,7 @@ def one_server(ip, param, final_result, module):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     # Create connection to server
-    print((' Host: ' + ip + ' ').center(60, '-'))
+    print((' Host: ' + ip + ' ' + param['hostname']).center(60, '-'))
     if 'port' in param:
         default_ssh_port = param['port']
     else:

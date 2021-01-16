@@ -8,6 +8,26 @@ get_power_status = {'check': None,
                     'show_before': False
                     }
 
+# Power ON
+power_on = {'check': None,
+            'check_result': None,
+            'command': """power on""",
+            'show': """power""",
+            'execute_anyway': False,
+            'show_after': False,
+            'show_before': True
+            }
+
+# Power RESET
+power_reset = {'check': None,
+               'check_result': None,
+               'command': """power reset""",
+               'show': """power""",
+               'execute_anyway': False,
+               'show_after': False,
+               'show_before': True
+               }
+
 # Command List file, used for CentOS 8
 
 # DEBUG
@@ -25,15 +45,6 @@ install_package = {'check': None,
                    'show_after': False,
                    'show_before': True
                    }
-
-power_reset = {'check': None,
-               'check_result': None,
-               'command': None,
-               'show': """power reset""",
-               'execute_anyway': False,
-               'show_after': True,
-               'show_before': False
-               }
 
 #### Commands for install ####
 # Get hostname (check)
@@ -443,3 +454,13 @@ setting_eno5 = {'check': None,
                 'show_after': False,
                 'show_before': False
                 }
+
+# Get multipath -ll (check)
+get_multipath = {'check': False,
+                 'check_result': None,
+                 'command': """multipath -ll""",
+                 'show': None,
+                 'execute_anyway': True,
+                 'show_after': True,
+                 'show_before': False
+                 }
