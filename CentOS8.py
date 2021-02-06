@@ -4,7 +4,7 @@ get_power_status = {'check': None,
                     'command': None,
                     'show': """power""",
                     'execute_anyway': False,
-                    'show_after': False,
+                    'show_after': True,
                     'show_before': False
                     }
 
@@ -31,8 +31,14 @@ power_reset = {'check': None,
 # Command List file, used for CentOS 8
 
 # DEBUG
-c_debug = """echo $%hosthame%
-"""
+c_debug = {'check': None,
+           'check_result': None,
+           'command': """hostname""",
+           'show': """""",
+           'execute_anyway': False,
+           'show_after': False,
+           'show_before': False
+           }
 
 #### Frequently used ####
 
