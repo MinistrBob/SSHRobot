@@ -1,0 +1,6 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "commit_message": {
+    "prompt": "Write a single concise commit message in one sentence capturing the essence of the changes. Use this prefix based on the nature of the change: add for new files, fix for bug fixes, del for removed files/code, feat for modifications or new features. Format: prefix: <description>. The description MUST be written in Russian. Technical terms, variable names, function names, and file paths may remain in English. NEVER use Chinese characters or any CJK characters. No scope, no body, no footer."
+  }
+}
