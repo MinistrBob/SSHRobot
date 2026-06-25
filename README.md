@@ -84,10 +84,33 @@ History list of commands.
 ## paramiko
 Documentation - https://docs.paramiko.org/en/stable/
 
-## Requirements
-```Shell
-pip install -r c:\MyGit\SSHRobot\requirements.txt
-```
-
 ## Possible errors
 Paramiko error when trying to edit file: “sudo: no tty present and no askpass program specified” - https://stackoverflow.com/questions/33579184/paramiko-error-when-trying-to-edit-file-sudo-no-tty-present-and-no-askpass-pr
+
+## Установка python для разработки
+
+### Установка Linux
+
+```bash
+sudo apt update
+sudo apt install -y python3 python3-venv python3-pip
+cd /home/bobrovsky/mygit/_ministrbob/SSHRobot
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+
+$ python3 --version
+Python 3.13.5
+
+```
+
+### Установка Windows
+
+```bash
+"c:\Program Files\Python312\python.exe" -m venv .venv
+.venv\Scripts\activate   # Windows
+# source .venv/bin/activate  # Linux/Mac
+pip install -r requirements.txt
+pip install -r requirements-optional.txt
+```
