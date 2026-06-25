@@ -3,3 +3,4 @@ CL_archive.txt
 FOL.py
 test.py
 SETTINGS.py
+seq_comm_*.py
