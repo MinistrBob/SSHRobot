@@ -28,7 +28,7 @@ cd /d "%BP%"
 for /f "skip=14 eol=: delims=" %%F in ('dir /b /o-d *.7z') do @del "%%F"
 
 call :get_elapsed "%start_time%" "%time%"
-echo Архив создан за %elapsed_min% минут %elapsed_sec% секунд
+echo The archive was created in %elapsed_min% minutes and %elapsed_sec% seconds
 pause
 exit /b
 
