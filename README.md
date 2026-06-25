@@ -99,9 +99,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-
 $ python3 --version
 Python 3.13.5
+
+pip freeze > requirements.txt
 
 ```
 
