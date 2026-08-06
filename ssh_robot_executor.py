@@ -112,7 +112,8 @@ def one_server(ip, param, final_result, module):
     else:
         default_ssh_port = SETTINGS.default_SSH_port
     try:
-        ssh.connect(ip, username=param['login'], password=param['password'], port=default_ssh_port)
+        ssh.connect(ip, username=param['login'], password=param['password'], port=default_ssh_port,
+                    timeout=SETTINGS.ssh_timeout)
         # chan = ssh.get_transport().open_session()
     except (ConnectionError, TimeoutError) as e:
         print(f"ERROR: Can't connect to {ip}")

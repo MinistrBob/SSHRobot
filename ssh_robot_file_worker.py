@@ -14,7 +14,8 @@ for ip, param in SETTINGS.sl.items():
     if 'port' in param:
         default_SSH_port = param['port']
     try:
-        ssh.connect(ip, username=param['login'], password=param['password'], port=SETTINGS.default_SSH_port)
+        ssh.connect(ip, username=param['login'], password=param['password'], port=SETTINGS.default_SSH_port,
+                    timeout=SETTINGS.ssh_timeout)
         # chan = ssh.get_transport().open_session()
         sftp = ssh.open_sftp()
     except (ConnectionError, TimeoutError) as e:
